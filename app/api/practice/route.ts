@@ -1,6 +1,6 @@
 import { generateObject } from "ai"
 import { z } from "zod"
-import { MODEL, aiErrorResponse } from "@/lib/ai"
+import { MODEL } from "@/lib/ai"
 
 export const maxDuration = 60
 
@@ -44,6 +44,7 @@ export async function POST(req: Request) {
 
     return Response.json(object)
   } catch (err) {
-    return aiErrorResponse(err, "Failed to generate questions. Please try again.")
+    console.log("[v0] practice error:", err instanceof Error ? err.message : err)
+    return Response.json({ error: "Failed to generate questions. Please try again." }, { status: 500 })
   }
 }
