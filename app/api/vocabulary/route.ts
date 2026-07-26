@@ -1,6 +1,6 @@
 import { generateObject } from "ai"
 import { z } from "zod"
-import { MODEL } from "@/lib/ai"
+import { MODEL, aiErrorResponse } from "@/lib/ai"
 
 export const maxDuration = 60
 
@@ -35,7 +35,6 @@ export async function POST(req: Request) {
 
     return Response.json(object)
   } catch (err) {
-    console.log("[v0] vocabulary error:", err instanceof Error ? err.message : err)
-    return Response.json({ error: "Failed to generate vocabulary. Please try again." }, { status: 500 })
+    return aiErrorResponse(err, "Failed to generate vocabulary. Please try again.")
   }
 }
